@@ -6,11 +6,11 @@ import { ecoStory } from "@/lib/content";
 
 export default function EcoStory() {
   return (
-    <section id="eco-story" className="bg-forest py-20 md:py-28 overflow-hidden">
+    <section id="eco-story" className="bg-[#1C1A17] py-24 md:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section label */}
         <ScrollReveal>
-          <p className="text-sage text-sm tracking-[0.2em] uppercase font-body mb-3 text-center md:text-left">
+          <p className="text-[#C5A880] text-xs tracking-[0.3em] uppercase font-body mb-3 text-center md:text-left font-medium">
             {ecoStory.sectionTitle}
           </p>
         </ScrollReveal>
@@ -28,22 +28,22 @@ export default function EcoStory() {
               />
             </div>
             {/* Editorial caption */}
-            <p className="editorial-caption mt-4 text-cream/60">
+            <p className="editorial-caption mt-4 text-stone-400 font-serif">
               {ecoStory.caption}
             </p>
           </ScrollReveal>
 
           {/* Text block */}
           <ScrollReveal delay={0.2} className="order-1 lg:order-2">
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-cream mb-2 leading-tight">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-2 leading-tight">
               {ecoStory.heading}
             </h2>
-            <div className="section-divider mb-8 mt-4" />
+            <div className="w-[60px] h-[2px] bg-[#C5A880] mb-8 mt-4" />
             <div className="space-y-5">
               {ecoStory.paragraphs.map((paragraph, i) => (
                 <p
                   key={i}
-                  className="text-cream/80 font-body text-base md:text-lg leading-relaxed"
+                  className="text-stone-300 font-light text-base md:text-lg leading-relaxed font-sans"
                 >
                   {paragraph}
                 </p>

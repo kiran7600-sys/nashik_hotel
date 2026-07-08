@@ -36,10 +36,10 @@ function StarRating({ score }: { score: string }) {
           viewBox="0 0 24 24"
           className={
             i < fullStars
-              ? "text-terracotta fill-terracotta"
+              ? "text-[#C5A880] fill-[#C5A880]"
               : i === fullStars && hasHalf
-              ? "text-terracotta fill-terracotta/50"
-              : "text-cream/30 fill-cream/30"
+              ? "text-[#C5A880] fill-[#C5A880]/50"
+              : "text-stone-300 fill-stone-200"
           }
         >
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -51,18 +51,18 @@ function StarRating({ score }: { score: string }) {
 
 export default function TrustStrip() {
   return (
-    <section className="bg-forest py-20 md:py-28 overflow-hidden">
+    <section className="bg-[#FAF9F6] py-24 md:py-32 overflow-hidden border-t border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Ratings */}
         <ScrollReveal>
           <div className="text-center mb-4">
-            <p className="text-sage text-sm tracking-[0.2em] uppercase font-body mb-3">
+            <p className="text-[#C5A880] text-xs tracking-[0.3em] uppercase font-body mb-3 font-medium">
               What Our Guests Say
             </p>
-            <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-cream mb-4">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-stone-900 mb-4">
               Loved by Thousands
             </h2>
-            <div className="section-divider mx-auto" />
+            <div className="w-[60px] h-[2px] bg-[#C5A880] mx-auto" />
           </div>
         </ScrollReveal>
 
@@ -73,15 +73,17 @@ export default function TrustStrip() {
                 key={rating.platform}
                 className="text-center"
               >
-                <div className="font-heading text-5xl md:text-6xl font-bold text-cream mb-2">
+                <div className="font-serif text-5xl md:text-6xl font-bold text-stone-900 mb-2">
                   <AnimatedNumber value={rating.score} />
-                  <span className="text-2xl text-cream/50">/{rating.outOf}</span>
+                  <span className="text-2xl text-stone-400">/{rating.outOf}</span>
                 </div>
-                <StarRating score={rating.score} />
-                <p className="text-cream/60 text-sm font-body mt-2">
+                <div className="flex justify-center mb-2">
+                  <StarRating score={rating.score} />
+                </div>
+                <p className="text-stone-500 text-sm font-body">
                   {rating.reviewCount} reviews
                 </p>
-                <p className="text-sage text-xs tracking-wider uppercase font-body mt-1">
+                <p className="text-[#C5A880] text-[10px] tracking-[0.2em] uppercase font-body font-semibold mt-1">
                   {rating.platform}
                 </p>
               </div>
@@ -93,23 +95,23 @@ export default function TrustStrip() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {trustData.quotes.map((quote, i) => (
             <ScrollReveal key={i} delay={0.1 + i * 0.1}>
-              <div className="glass-card-dark rounded-xl p-6 md:p-8 h-full flex flex-col">
+              <div className="glass-card rounded-xl p-6 md:p-8 h-full flex flex-col border border-stone-200/60 bg-white/85 shadow-sm">
                 {/* Quote mark */}
                 <svg
                   width="32"
                   height="24"
                   viewBox="0 0 32 24"
-                  className="text-sage/40 mb-4 shrink-0"
+                  className="text-[#C5A880]/30 mb-4 shrink-0"
                   fill="currentColor"
                 >
                   <path d="M0 24V14.4C0 6.08 4.48.64 13.44 0l1.28 3.2C9.6 4.16 6.72 7.68 6.4 12H12v12H0zm18.56 0V14.4c0-8.32 4.48-13.76 13.44-14.4l1.28 3.2c-5.12.96-7.36 4.48-8 8.8H32v12H18.56z" />
                 </svg>
-                <p className="text-cream/80 font-body text-sm md:text-base leading-relaxed italic flex-1">
+                <p className="text-stone-700 font-sans text-sm md:text-base leading-relaxed italic flex-1">
                   &ldquo;{quote.text}&rdquo;
                 </p>
-                <div className="mt-4 pt-4 border-t border-sage/20">
-                  <p className="text-cream font-medium text-sm">{quote.author}</p>
-                  <p className="text-sage/60 text-xs">{quote.source}</p>
+                <div className="mt-6 pt-4 border-t border-stone-100">
+                  <p className="text-stone-900 font-medium text-sm font-sans">{quote.author}</p>
+                  <p className="text-stone-500 text-xs font-sans">{quote.source}</p>
                 </div>
               </div>
             </ScrollReveal>

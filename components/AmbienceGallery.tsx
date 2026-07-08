@@ -35,17 +35,21 @@ export default function AmbienceGallery() {
   }));
 
   return (
-    <section id="gallery" className="bg-cream py-20 md:py-28">
+    <section id="gallery" className="bg-[#1C1A17] py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
-          <SectionHeading
-            title="The Space"
-            subtitle="Two floors of garden dining — open-air seating below, a covered terrace above, and nature woven through every corner"
-          />
+          <div className="text-center mb-16">
+            <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] mb-2 block font-medium">The Sanctuary</span>
+            <SectionHeading
+              title="The Space"
+              subtitle="Two floors of garden dining — open-air seating below, a covered terrace above, and nature woven through every corner"
+              light={true}
+            />
+          </div>
         </ScrollReveal>
 
         {/* Gallery grid — alternating sizes for editorial feel */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {ambienceGallery.map((image, i) => (
             <ScrollReveal
               key={image.id}
@@ -56,7 +60,7 @@ export default function AmbienceGallery() {
             >
               <button
                 onClick={() => openLightbox(i)}
-                className="group relative w-full overflow-hidden rounded-lg cursor-pointer block"
+                className="group relative w-full overflow-hidden rounded-lg cursor-pointer block border border-stone-800"
                 aria-label={`View: ${image.caption}`}
               >
                 <div
@@ -76,7 +80,7 @@ export default function AmbienceGallery() {
                     }
                   />
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-forest/0 group-hover:bg-forest/30 transition-colors duration-500 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[#1C1A17]/0 group-hover:bg-[#1C1A17]/40 transition-colors duration-500 flex items-center justify-center">
                     <svg
                       width="32"
                       height="32"
@@ -84,7 +88,7 @@ export default function AmbienceGallery() {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.5"
-                      className="text-offwhite opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-75 group-hover:scale-100"
+                      className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-75 group-hover:scale-100"
                     >
                       <circle cx="11" cy="11" r="8" />
                       <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
@@ -92,12 +96,12 @@ export default function AmbienceGallery() {
                   </div>
                 </div>
                 {/* Floor badge */}
-                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-offwhite/80 backdrop-blur-sm text-espresso text-xs tracking-wider uppercase">
+                <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#FAF9F6]/90 backdrop-blur-sm text-stone-900 text-[10px] tracking-wider uppercase font-semibold">
                   {image.floor === "ground" ? "Ground Floor" : "First Floor"}
                 </div>
               </button>
               {/* Editorial caption */}
-              <p className="editorial-caption mt-3">
+              <p className="editorial-caption mt-3 text-stone-400 font-serif">
                 {image.caption}
               </p>
             </ScrollReveal>

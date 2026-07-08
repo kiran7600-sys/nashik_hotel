@@ -37,26 +37,30 @@ export default function ReserveForm() {
   };
 
   return (
-    <section id="reserve" className="bg-cream py-20 md:py-28">
+    <section id="reserve" className="bg-[#1C1A17] py-24 md:py-32 border-t border-stone-800">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
-          <SectionHeading
-            title={reserveConfig.heading}
-            subtitle={reserveConfig.subheading}
-          />
+          <div className="text-center mb-12">
+            <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] mb-2 block font-medium">Reservations</span>
+            <SectionHeading
+              title={reserveConfig.heading}
+              subtitle={reserveConfig.subheading}
+              light={true}
+            />
+          </div>
         </ScrollReveal>
 
         <ScrollReveal delay={0.15}>
           <form
             onSubmit={handleSubmit}
-            className="glass-card rounded-2xl p-6 md:p-10 shadow-lg"
+            className="bg-stone-900/60 border border-stone-850 rounded-2xl p-6 md:p-10 shadow-xl"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name */}
               <div className="md:col-span-2">
                 <label
                   htmlFor="reserve-name"
-                  className="block text-sm font-medium text-espresso/70 mb-1.5"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
                 >
                   Your Name
                 </label>
@@ -67,7 +71,7 @@ export default function ReserveForm() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Priya Sharma"
-                  className="w-full px-4 py-3 rounded-lg border border-sage/20 bg-offwhite text-espresso placeholder:text-espresso/30 focus:border-terracotta focus:ring-1 focus:ring-terracotta/30 outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] placeholder:text-stone-600 focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all"
                 />
               </div>
 
@@ -75,7 +79,7 @@ export default function ReserveForm() {
               <div>
                 <label
                   htmlFor="reserve-date"
-                  className="block text-sm font-medium text-espresso/70 mb-1.5"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
                 >
                   Date
                 </label>
@@ -86,7 +90,7 @@ export default function ReserveForm() {
                   value={date}
                   min={today}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-sage/20 bg-offwhite text-espresso focus:border-terracotta focus:ring-1 focus:ring-terracotta/30 outline-none transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all"
                 />
               </div>
 
@@ -94,7 +98,7 @@ export default function ReserveForm() {
               <div>
                 <label
                   htmlFor="reserve-time"
-                  className="block text-sm font-medium text-espresso/70 mb-1.5"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
                 >
                   Preferred Time
                 </label>
@@ -102,9 +106,9 @@ export default function ReserveForm() {
                   id="reserve-time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-sage/20 bg-offwhite text-espresso focus:border-terracotta focus:ring-1 focus:ring-terracotta/30 outline-none transition-colors appearance-none"
+                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all appearance-none"
                   style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234F6F52' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C5A880' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "right 12px center",
                   }}
@@ -119,7 +123,7 @@ export default function ReserveForm() {
 
               {/* Party Size */}
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-espresso/70 mb-3">
+                <label className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-3">
                   Party Size
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -128,10 +132,10 @@ export default function ReserveForm() {
                       key={size}
                       type="button"
                       onClick={() => setPartySize(size)}
-                      className={`w-12 h-12 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      className={`w-12 h-12 rounded-lg text-sm font-semibold transition-all duration-300 cursor-pointer ${
                         partySize === size
-                          ? "bg-forest text-cream shadow-md"
-                          : "bg-offwhite text-espresso/60 border border-sage/20 hover:border-sage/40"
+                          ? "bg-[#C5A880] text-stone-900 shadow-md"
+                          : "bg-stone-900 text-stone-300 border border-stone-700 hover:border-stone-500"
                       }`}
                     >
                       {size}
@@ -145,10 +149,10 @@ export default function ReserveForm() {
             <button
               type="submit"
               disabled={submitted}
-              className={`mt-8 w-full py-3.5 rounded-full font-medium text-sm tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2 ${
+              className={`mt-8 w-full py-4 rounded-lg font-semibold text-xs tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
                 submitted
-                  ? "bg-sage text-cream"
-                  : "bg-terracotta text-offwhite hover:bg-terracotta/90 shadow-lg shadow-terracotta/20"
+                  ? "bg-stone-800 text-stone-400 cursor-not-allowed"
+                  : "bg-[#C5A880] text-stone-900 hover:bg-[#B3966E] shadow-lg shadow-[#C5A880]/10"
               }`}
             >
               {submitted ? (
@@ -168,7 +172,7 @@ export default function ReserveForm() {
               )}
             </button>
 
-            <p className="text-center text-espresso/40 text-xs mt-4">
+            <p className="text-center text-stone-500 text-xs mt-4">
               Your reservation request will be sent via WhatsApp. No account needed.
             </p>
           </form>

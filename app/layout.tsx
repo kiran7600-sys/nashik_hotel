@@ -22,8 +22,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theterotale.com"),
-  title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
-  description: siteInfo.description,
+  title: "The Terotale | Pure Vegetarian Fine Dine, Nashik",
+  description: "Experience a premium multi-cuisine fine dining experience in Nashik featuring a lush indoor plant setting and architectural rooftop dining.",
   keywords: [
     "vegetarian restaurant Nashik",
     "fine dining Nashik",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
     "best restaurant Nashik",
   ],
   openGraph: {
-    title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
-    description: siteInfo.description,
+    title: "The Terotale | Pure Vegetarian Fine Dine, Nashik",
+    description: "Experience a premium multi-cuisine fine dining experience in Nashik featuring a lush indoor plant setting and architectural rooftop dining.",
     url: "https://theterotale.com",
     siteName: siteInfo.name,
     locale: "en_IN",
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
-    description: siteInfo.description,
+    title: "The Terotale | Pure Vegetarian Fine Dine, Nashik",
+    description: "Experience a premium multi-cuisine fine dining experience in Nashik featuring a lush indoor plant setting and architectural rooftop dining.",
     images: ["/images/hero-background.png"],
   },
   robots: {
@@ -65,7 +65,7 @@ const restaurantSchema: WithContext<Restaurant> = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   name: siteInfo.name,
-  description: siteInfo.description,
+  description: "Experience a premium multi-cuisine fine dining experience in Nashik featuring a lush indoor plant setting and architectural rooftop dining.",
   image: "/images/hero-background.png",
   telephone: siteInfo.phone,
   address: {
@@ -130,7 +130,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#2F3E2E" />
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-cream text-espresso font-body min-h-screen flex flex-col">
+      <body className="font-sans bg-[#FAF9F6] text-[#1C1A17] antialiased min-h-screen flex flex-col">
         <JsonLd data={restaurantSchema} />
         <Navbar />
         <main className="flex-1">{children}</main>
