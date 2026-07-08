@@ -124,7 +124,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable} antialiased`}
+      className={`${playfair.variable} ${inter.variable} scroll-smooth antialiased`}
     >
       <head>
         <meta name="theme-color" content="#2F3E2E" />
