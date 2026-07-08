@@ -5,6 +5,7 @@ import StickyCtaBar from "@/components/StickyCtaBar";
 import Footer from "@/components/Footer";
 import { siteInfo } from "@/lib/content";
 import type { Restaurant, WithContext } from "schema-dts";
+import ScrollSpeedGrain from "@/components/ScrollSpeedGrain";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -121,7 +122,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-sans bg-[#FAF9F6] text-stone-800 antialiased min-h-screen flex flex-col relative">
-        <div className="noise-overlay" />
+        <ScrollSpeedGrain />
         <JsonLd data={restaurantSchema} />
         <Navbar />
         <main className="flex-1">{children}</main>
