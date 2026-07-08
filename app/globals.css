@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #2F3E2E;
+  --color-sage: #4F6F52;
+  --color-terracotta: #C1793B;
+  --color-cream: #F5EFE3;
+  --color-espresso: #3A2E28;
+  --color-offwhite: #FFFFFF;
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+/* ── Base styles ── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ── Ken Burns animation ── */
+@keyframes kenburns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.12);
+  }
+}
+
+.animate-kenburns {
+  animation: kenburns 20s ease-out forwards;
+}
+
+/* ── Glassmorphism card effect ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-card-dark {
+  background: rgba(47, 62, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(79, 111, 82, 0.3);
+}
+
+/* ── Section divider ── */
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-sage);
+}
+
+/* ── Editorial caption style ── */
+.editorial-caption {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: var(--color-sage);
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest);
+}
+
+/* ── Focus ring for accessibility ── */
+*:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* ── Selection ── */
+::selection {
+  background-color: var(--color-sage);
+  color: var(--color-cream);
+}

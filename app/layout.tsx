@@ -1,0 +1,142 @@
+import type { Metadata } from "next";
+import { Playfair_Display, Inter } from "next/font/google";
+import JsonLd from "@/components/JsonLd";
+import Navbar from "@/components/Navbar";
+import StickyCtaBar from "@/components/StickyCtaBar";
+import Footer from "@/components/Footer";
+import { siteInfo } from "@/lib/content";
+import type { Restaurant, WithContext } from "schema-dts";
+import "./globals.css";
+
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://theterotale.com"),
+  title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
+  description: siteInfo.description,
+  keywords: [
+    "vegetarian restaurant Nashik",
+    "fine dining Nashik",
+    "eco-conscious restaurant",
+    "The Terotale",
+    "garden restaurant Nashik",
+    "pure veg restaurant Nashik",
+    "best restaurant Nashik",
+  ],
+  openGraph: {
+    title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
+    description: siteInfo.description,
+    url: "https://theterotale.com",
+    siteName: siteInfo.name,
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "/images/hero-background.png",
+        width: 1200,
+        height: 630,
+        alt: siteInfo.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteInfo.name} — Pure Vegetarian Fine Dining in Nashik`,
+    description: siteInfo.description,
+    images: ["/images/hero-background.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const restaurantSchema: WithContext<Restaurant> = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: siteInfo.name,
+  description: siteInfo.description,
+  image: "/images/hero-background.png",
+  telephone: siteInfo.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteInfo.address.street,
+    addressLocality: siteInfo.address.city,
+    addressRegion: siteInfo.address.state,
+    postalCode: siteInfo.address.zip,
+    addressCountry: siteInfo.address.country,
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: siteInfo.coordinates.lat,
+    longitude: siteInfo.coordinates.lng,
+  },
+  servesCuisine: ["Indian", "Continental", "Chinese"],
+  priceRange: "₹₹",
+  acceptsReservations: true,
+  url: "https://theterotale.com",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "6362",
+    bestRating: "5",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "https://schema.org/Monday",
+        "https://schema.org/Tuesday",
+        "https://schema.org/Wednesday",
+        "https://schema.org/Thursday",
+        "https://schema.org/Friday",
+      ],
+      opens: "12:00",
+      closes: "23:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "https://schema.org/Saturday",
+        "https://schema.org/Sunday",
+      ],
+      opens: "11:00",
+      closes: "23:30",
+    },
+  ],
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${playfair.variable} ${inter.variable} antialiased`}
+    >
+      <head>
+        <meta name="theme-color" content="#2F3E2E" />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body className="bg-cream text-espresso font-body min-h-screen flex flex-col">
+        <JsonLd data={restaurantSchema} />
+        <Navbar />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <StickyCtaBar />
+      </body>
+    </html>
+  );
+}
