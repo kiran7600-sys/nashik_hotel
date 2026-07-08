@@ -5,10 +5,12 @@ import AmbienceGallery from "@/components/AmbienceGallery";
 import TrustStrip from "@/components/TrustStrip";
 import ReserveForm from "@/components/ReserveForm";
 import VisitUs from "@/components/VisitUs";
+import ScrollVine from "@/components/ScrollVine";
 
 export default function Home() {
   return (
     <>
+      <ScrollVine />
       <Hero />
       <EcoStory />
       <MenuHighlights />

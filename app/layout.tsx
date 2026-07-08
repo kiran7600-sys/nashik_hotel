@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import StickyCtaBar from "@/components/StickyCtaBar";
@@ -7,18 +6,6 @@ import Footer from "@/components/Footer";
 import { siteInfo } from "@/lib/content";
 import type { Restaurant, WithContext } from "schema-dts";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://theterotale.com"),
@@ -124,13 +111,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${inter.variable} scroll-smooth antialiased`}
+      className="scroll-smooth antialiased"
     >
       <head>
         <meta name="theme-color" content="#2F3E2E" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-sans bg-[#FAF9F6] text-[#1C1A17] antialiased min-h-screen flex flex-col">
+      <body className="font-sans bg-[#FAF9F6] text-stone-800 antialiased min-h-screen flex flex-col relative">
+        <div className="noise-overlay" />
         <JsonLd data={restaurantSchema} />
         <Navbar />
         <main className="flex-1">{children}</main>

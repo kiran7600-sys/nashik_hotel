@@ -23,7 +23,7 @@ export default function EcoStory() {
                 src={ecoStory.image}
                 alt={ecoStory.alt}
                 fill
-                className="object-cover"
+                className="object-cover photo-grade"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>

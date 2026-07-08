@@ -37,8 +37,8 @@ export default function ReserveForm() {
   };
 
   return (
-    <section id="reserve" className="bg-[#1C1A17] py-24 md:py-32 border-t border-stone-800">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="reserve" className="bg-forest py-24 md:py-32 border-t border-sage/20 relative overflow-hidden">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <ScrollReveal>
           <div className="text-center mb-12">
             <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] mb-2 block font-medium">Reservations</span>
@@ -53,14 +53,14 @@ export default function ReserveForm() {
         <ScrollReveal delay={0.15}>
           <form
             onSubmit={handleSubmit}
-            className="bg-stone-900/60 border border-stone-850 rounded-2xl p-6 md:p-10 shadow-xl"
+            className="bg-forest/50 border border-sage/30 rounded-2xl p-6 md:p-10 shadow-xl"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name */}
               <div className="md:col-span-2">
                 <label
                   htmlFor="reserve-name"
-                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-cream/80 mb-2 font-sans"
                 >
                   Your Name
                 </label>
@@ -71,7 +71,7 @@ export default function ReserveForm() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Priya Sharma"
-                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] placeholder:text-stone-600 focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-forest/40 text-cream placeholder:text-cream/35 focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all font-sans"
                 />
               </div>
 
@@ -79,7 +79,7 @@ export default function ReserveForm() {
               <div>
                 <label
                   htmlFor="reserve-date"
-                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-cream/80 mb-2 font-sans"
                 >
                   Date
                 </label>
@@ -90,7 +90,7 @@ export default function ReserveForm() {
                   value={date}
                   min={today}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-forest/40 text-cream focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all font-sans"
                 />
               </div>
 
@@ -98,7 +98,7 @@ export default function ReserveForm() {
               <div>
                 <label
                   htmlFor="reserve-time"
-                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-2"
+                  className="block text-xs uppercase tracking-[0.2em] font-semibold text-cream/80 mb-2 font-sans"
                 >
                   Preferred Time
                 </label>
@@ -106,7 +106,7 @@ export default function ReserveForm() {
                   id="reserve-time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-stone-700 bg-stone-900 text-[#FAF9F6] focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all appearance-none"
+                  className="w-full px-4 py-3 rounded-lg border border-sage/30 bg-forest/40 text-cream focus:border-[#C5A880] focus:ring-1 focus:ring-[#C5A880]/30 outline-none transition-all appearance-none font-sans"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C5A880' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
                     backgroundRepeat: "no-repeat",
@@ -114,7 +114,7 @@ export default function ReserveForm() {
                   }}
                 >
                   {reserveConfig.timeSlots.map((slot) => (
-                    <option key={slot} value={slot}>
+                    <option key={slot} value={slot} className="bg-forest text-cream">
                       {slot}
                     </option>
                   ))}
@@ -123,7 +123,7 @@ export default function ReserveForm() {
 
               {/* Party Size */}
               <div className="md:col-span-2">
-                <label className="block text-xs uppercase tracking-[0.2em] font-semibold text-stone-300 mb-3">
+                <label className="block text-xs uppercase tracking-[0.2em] font-semibold text-cream/80 mb-3 font-sans">
                   Party Size
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -135,7 +135,7 @@ export default function ReserveForm() {
                       className={`w-12 h-12 rounded-lg text-sm font-semibold transition-all duration-300 cursor-pointer ${
                         partySize === size
                           ? "bg-[#C5A880] text-stone-900 shadow-md"
-                          : "bg-stone-900 text-stone-300 border border-stone-700 hover:border-stone-500"
+                          : "bg-forest/40 text-cream/80 border border-sage/30 hover:border-sage/50"
                       }`}
                     >
                       {size}
@@ -151,7 +151,7 @@ export default function ReserveForm() {
               disabled={submitted}
               className={`mt-8 w-full py-4 rounded-lg font-semibold text-xs tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
                 submitted
-                  ? "bg-stone-800 text-stone-400 cursor-not-allowed"
+                  ? "bg-forest/60 text-cream/40 cursor-not-allowed"
                   : "bg-[#C5A880] text-stone-900 hover:bg-[#B3966E] shadow-lg shadow-[#C5A880]/10"
               }`}
             >
@@ -172,7 +172,7 @@ export default function ReserveForm() {
               )}
             </button>
 
-            <p className="text-center text-stone-500 text-xs mt-4">
+            <p className="text-center text-cream/40 text-xs mt-4">
               Your reservation request will be sent via WhatsApp. No account needed.
             </p>
           </form>
