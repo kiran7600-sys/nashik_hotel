@@ -1,31 +1,26 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { scrollState } from "@/lib/scrollState";
 
 /**
  * SmoothScrollProvider
  *
- * Intercepts mouse-wheel & keyboard scroll events and replaces the browser's
- * native chunky scroll jumps with a lerp-based animation each RAF tick.
- * This makes the mouse wheel feel identical to a trackpad — critical for a
- * scroll-jacked horizontal layout where discrete jumps cause section breaks.
+ * Handles smooth vertical scrolling via lerp for the VERTICAL sections
+ * of the page (Menu, Reserve, VisitUs, Footer).
  *
- * Architecture:
- *  - targetY: where the page SHOULD be (updated instantly on wheel/key)
- *  - Every RAF tick: window.scrollY lerps toward targetY at EASE factor
- *  - Framer Motion's useScroll reads every native scroll event, so the
- *    horizontal transform in HorizontalScrollSection stays perfectly in sync
+ * When HorizontalScrollSection is active it intercepts wheel events in
+ * capture phase and sets scrollState.horizontalActive = true. This provider
+ * backs off completely in that case, so there's no double-handling.
  */
 
-const EASE             = 0.08;  // 8% per frame — smooth but responsive (~120ms settle)
-const WHEEL_MULT       = 1.0;   // Wheel speed multiplier. 1 = natural.
+const EASE   = 0.09;  // lerp factor — 9% per frame ≈ 110ms settle
 
 export default function SmoothScrollProvider() {
-  const targetY   = useRef(0);
-  const rafId     = useRef<number | null>(null);
+  const targetY = useRef(0);
+  const rafId   = useRef<number | null>(null);
 
   useEffect(() => {
-    // Sync to current scroll position on mount (handles reload mid-page)
     targetY.current = window.scrollY;
 
     const getMax = () =>
@@ -34,52 +29,48 @@ export default function SmoothScrollProvider() {
     const clamp = (v: number, lo: number, hi: number) =>
       Math.min(Math.max(v, lo), hi);
 
-    // ── RAF animation loop ─────────────────────────────────────────────────
+    // ── RAF loop — always running, does nothing when delta < 0.5 ──────────
     const tick = () => {
-      const current = window.scrollY;
-      const target  = targetY.current;
-      const delta   = target - current;
+      const cur    = window.scrollY;
+      const target = targetY.current;
+      const delta  = target - cur;
 
-      if (Math.abs(delta) < 0.5) {
-        // Close enough — snap and stop
-        if (delta !== 0) window.scrollTo(0, target);
-        rafId.current = requestAnimationFrame(tick); // keep alive for next event
-        return;
+      if (Math.abs(delta) >= 0.5) {
+        window.scrollTo(0, cur + delta * EASE);
+      } else if (delta !== 0) {
+        window.scrollTo(0, target);
       }
 
-      // Lerp: move 8% closer each frame
-      window.scrollTo(0, current + delta * EASE);
       rafId.current = requestAnimationFrame(tick);
     };
 
     rafId.current = requestAnimationFrame(tick);
 
-    // ── Mouse wheel handler ────────────────────────────────────────────────
+    // ── Wheel handler (bubble phase — capture handled by HorizontalScroll) ─
     const onWheel = (e: WheelEvent) => {
+      // HorizontalScrollSection uses capture phase and stopImmediatePropagation
+      // so this only fires when horizontal mode is not active.
+      // Guard anyway for safety.
+      if (scrollState.horizontalActive) return;
+
       e.preventDefault();
 
-      // Normalise delta across deltaMode variants:
-      //   0 = pixels  (most mice & trackpads)
-      //   1 = lines   (some older mice, Firefox on Windows)
-      //   2 = pages   (Page Up/Down)
       let dy = e.deltaY;
       if (e.deltaMode === 1) dy *= 40;
       if (e.deltaMode === 2) dy *= window.innerHeight;
 
-      targetY.current = clamp(
-        targetY.current + dy * WHEEL_MULT,
-        0,
-        getMax()
-      );
+      targetY.current = clamp(targetY.current + dy, 0, getMax());
     };
 
-    // ── Keyboard scroll handler ────────────────────────────────────────────
+    // ── Keyboard handler ──────────────────────────────────────────────────
     const onKey = (e: KeyboardEvent) => {
+      if (scrollState.horizontalActive) return;
+
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 
-      const vh = window.innerHeight;
-      const keyMap: Record<string, number> = {
+      const vh  = window.innerHeight;
+      const map: Record<string, number> = {
         ArrowDown:  70,
         ArrowUp:   -70,
         PageDown:   vh * 0.88,
@@ -87,10 +78,10 @@ export default function SmoothScrollProvider() {
       };
 
       let dy: number | undefined;
-      if (e.key === " ")      dy = e.shiftKey ? -vh * 0.88 : vh * 0.88;
+      if (e.key === " ")       dy = e.shiftKey ? -vh * 0.88 : vh * 0.88;
       else if (e.key === "End")  dy = getMax() - targetY.current;
       else if (e.key === "Home") dy = -targetY.current;
-      else                       dy = keyMap[e.key];
+      else                       dy = map[e.key];
 
       if (dy === undefined) return;
 
@@ -99,14 +90,15 @@ export default function SmoothScrollProvider() {
     };
 
     // ── Anchor / programmatic jump sync ───────────────────────────────────
-    // If an anchor link or JS scrolls the page far away from our target,
-    // snap targetY to match so the lerp doesn't pull back the wrong way.
     const onScroll = () => {
+      // If something jumped scrollY far from our target (anchor click etc.),
+      // snap target to match so we don't drift back.
       if (Math.abs(window.scrollY - targetY.current) > 150) {
         targetY.current = window.scrollY;
       }
     };
 
+    // Bubble phase — HorizontalScrollSection's capture-phase handler runs first
     window.addEventListener("wheel",   onWheel,  { passive: false });
     window.addEventListener("keydown", onKey,    { passive: false });
     window.addEventListener("scroll",  onScroll, { passive: true  });
