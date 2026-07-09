@@ -14,7 +14,8 @@ import { scrollState } from "@/lib/scrollState";
  * backs off completely in that case, so there's no double-handling.
  */
 
-const EASE   = 0.09;  // lerp factor — 9% per frame ≈ 110ms settle
+const EASE       = 0.16;  // lerp factor — 16% per frame (snappier catch-up)
+const WHEEL_MULT = 1.35;  // scroll distance multiplier for responsive travel
 
 export default function SmoothScrollProvider() {
   const targetY = useRef(0);
@@ -59,7 +60,7 @@ export default function SmoothScrollProvider() {
       if (e.deltaMode === 1) dy *= 40;
       if (e.deltaMode === 2) dy *= window.innerHeight;
 
-      targetY.current = clamp(targetY.current + dy, 0, getMax());
+      targetY.current = clamp(targetY.current + dy * WHEEL_MULT, 0, getMax());
     };
 
     // ── Keyboard handler ──────────────────────────────────────────────────
