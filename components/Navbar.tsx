@@ -49,11 +49,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <a
-              href="#"
+              href="/"
               className="font-heading text-xl md:text-2xl font-semibold text-offwhite tracking-wide hover:opacity-80 transition-opacity"
               onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  window.location.reload();
+                }
               }}
             >
               {siteInfo.name}
