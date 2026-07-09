@@ -24,12 +24,18 @@
 
 /* ── Base styles ── */
 html {
-  scroll-behavior: smooth;
+  /* Let Framer Motion handle its own easing; native smooth-scroll conflicts with scroll-jacking */
+  scroll-behavior: auto;
+  /* Prevent rubber-band overscroll from causing layout jumps */
+  overscroll-behavior: none;
 }
 
 @layer base {
   body {
     @apply font-sans antialiased text-stone-800 bg-[#FAF9F6];
+    /* Smooth momentum scrolling on iOS/macOS */
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
   }
   h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: "Fraunces", Georgia, serif;
@@ -81,22 +87,45 @@ html {
   color: var(--color-sage);
 }
 
-/* ── Custom scrollbar ── */
+/* ── Lavish Luxury Scrollbar — slim champagne gold ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 3px;
+  height: 3px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-cream);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-sage);
-  border-radius: 4px;
+  background: linear-gradient(
+    to bottom,
+    #C5A880 0%,
+    #A38A66 50%,
+    #C5A880 100%
+  );
+  border-radius: 100px;
+  border: 0px solid transparent;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-forest);
+  background: linear-gradient(
+    to bottom,
+    #D4BC9A 0%,
+    #C5A880 50%,
+    #D4BC9A 100%
+  );
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox slim scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C5A880 transparent;
 }
 
 /* ── Focus ring for accessibility ── */

@@ -30,14 +30,18 @@ export default function HorizontalScrollSection() {
   });
 
   // Map 0→1 scroll progress to 0 → -(PANEL_COUNT-1)*100vw translateX
-  const xRaw = useTransform(
+  const xPercent = useTransform(
     scrollYProgress,
     [0, 1],
-    ["0vw", `${-(PANEL_COUNT - 1) * 100}vw`]
+    [0, -(PANEL_COUNT - 1) * 100]
   );
 
-  // Smooth it out with a spring for buttery feel
-  const x = useSpring(xRaw, { stiffness: 80, damping: 22, restDelta: 0.001 });
+  // Very soft spring — stiffness 30 / damping 25 = slow, patient, deliberate feel
+  // (Think Aesop or Cartier — the page takes its time)
+  const springX = useSpring(xPercent, { stiffness: 30, damping: 25, restDelta: 0.001 });
+
+  // Convert back to vw string for the transform
+  const x = useTransform(springX, (v) => `${v}vw`);
 
   // Update active dot indicator
   useEffect(() => {
@@ -68,12 +72,20 @@ export default function HorizontalScrollSection() {
         style={{ height: `${PANEL_COUNT * 100}vh` }}
         className="relative"
       >
-        {/* Sticky inner wrapper — stays at top, 100vh tall */}
-        <div className="sticky top-0 h-screen overflow-hidden">
-          {/* Horizontal flex row — all panels side-by-side */}
+        {/* Sticky inner wrapper — stays at top, 100vh tall.
+             overscroll-behavior:none prevents the sticky exit from jolting */}
+        <div
+          className="sticky top-0 h-screen overflow-hidden"
+          style={{ overscrollBehavior: "none" }}
+        >
+          {/* Horizontal flex row — all panels side-by-side.
+               translate3d forces GPU compositing so there's no pixel-snap
+               as the browser switches from sticky-scroll back to normal flow */}
           <motion.div
             style={{ x }}
-            className="flex flex-nowrap h-full will-change-transform"
+            className="flex flex-nowrap h-full"
+            // GPU layer hint — prevents repaint glitch at section boundaries
+            initial={{ willChange: "transform" }}
           >
             {/* Panel 1 — Hero */}
             <div className="relative shrink-0 w-screen h-screen overflow-hidden">

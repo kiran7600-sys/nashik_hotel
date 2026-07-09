@@ -20,7 +20,7 @@ export default function ScrollVine() {
   const opacity = useTransform(scrollYProgress, [0, 0.05, 0.42, 0.48], [0, 0.7, 0.7, 0]);
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 top-[80vh] h-[260vh] w-64 pointer-events-none z-20 hidden md:block">
+    <div className="fixed left-1/2 -translate-x-1/2 top-[80vh] h-[260vh] w-64 pointer-events-none z-20 hidden md:block">
       <svg
         className="w-full h-full"
         viewBox="0 0 200 2000"
