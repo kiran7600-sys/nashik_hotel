@@ -11,9 +11,9 @@ import { scrollState } from "@/lib/scrollState";
 const PANEL_COUNT = 4;
 const PANELS = ["Hero", "Eco Story", "Ambience", "Reviews"] as const;
 
-// Cinematic panel slide — easeInOutQuart
-const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
-const TRANSITION_S = 0.9; // seconds per panel slide
+// Cinematic panel slide — softer, less mechanical than a hard easeInOutQuart
+const EASE: [number, number, number, number] = [0.65, 0, 0.35, 1];
+const TRANSITION_S = 1.1; // seconds per panel slide
 
 // Min accumulated wheel delta to trigger a panel jump
 const TRIGGER_DELTA = 50;
@@ -35,6 +35,30 @@ export default function HorizontalScrollSection() {
   // Framer Motion value for horizontal translateX (in vw%)
   const x       = useMotionValue(0);
   const xString = useTransform(x, (v) => `${v}vw`);
+
+  // ── Per-panel depth transforms ───────────────────────────────────────────
+  // As a panel slides away from center it dims, scales down slightly, and
+  // softens focus — as it slides toward center it sharpens back up. This is
+  // what sells "moving through space" instead of "rigid strip sliding by."
+  const opacity0 = useTransform(x, [-100, 0, 100], [0.35, 1, 0.35]);
+  const opacity1 = useTransform(x, [-200, -100, 0], [0.35, 1, 0.35]);
+  const opacity2 = useTransform(x, [-300, -200, -100], [0.35, 1, 0.35]);
+  const opacity3 = useTransform(x, [-400, -300, -200], [0.35, 1, 0.35]);
+  const panelOpacities = [opacity0, opacity1, opacity2, opacity3];
+
+  const scale0 = useTransform(x, [-100, 0, 100], [0.96, 1, 0.96]);
+  const scale1 = useTransform(x, [-200, -100, 0], [0.96, 1, 0.96]);
+  const scale2 = useTransform(x, [-300, -200, -100], [0.96, 1, 0.96]);
+  const scale3 = useTransform(x, [-400, -300, -200], [0.96, 1, 0.96]);
+  const panelScales = [scale0, scale1, scale2, scale3];
+
+  const blur0 = useTransform(x, [-100, 0, 100], [3, 0, 3]);
+  const blur1 = useTransform(x, [-200, -100, 0], [3, 0, 3]);
+  const blur2 = useTransform(x, [-300, -200, -100], [3, 0, 3]);
+  const blur3 = useTransform(x, [-400, -300, -200], [3, 0, 3]);
+  const panelFilters = [blur0, blur1, blur2, blur3].map((b) =>
+    useTransform(b, (v) => `blur(${v}px)`)
+  );
 
   // ── Mobile detection ─────────────────────────────────────────────────────
   useEffect(() => {
@@ -204,7 +228,12 @@ export default function HorizontalScrollSection() {
           ref={(el) => { panelScrollRefs.current[0] = el; }}
           className="shrink-0 w-screen h-screen overflow-hidden"
         >
-          <Hero />
+          <motion.div
+            style={{ opacity: panelOpacities[0], scale: panelScales[0], filter: panelFilters[0] }}
+            className="h-full"
+          >
+            <Hero />
+          </motion.div>
         </div>
 
         {/* Panel 1 — Eco Story (scrollable) */}
@@ -212,7 +241,11 @@ export default function HorizontalScrollSection() {
           ref={(el) => { panelScrollRefs.current[1] = el; }}
           className="shrink-0 w-screen h-screen overflow-y-scroll no-scrollbar"
         >
-          <EcoStory />
+          <motion.div
+            style={{ opacity: panelOpacities[1], scale: panelScales[1], filter: panelFilters[1] }}
+          >
+            <EcoStory />
+          </motion.div>
         </div>
 
         {/* Panel 2 — Ambience Gallery (scrollable) */}
@@ -220,7 +253,11 @@ export default function HorizontalScrollSection() {
           ref={(el) => { panelScrollRefs.current[2] = el; }}
           className="shrink-0 w-screen h-screen overflow-y-scroll no-scrollbar"
         >
-          <AmbienceGallery />
+          <motion.div
+            style={{ opacity: panelOpacities[2], scale: panelScales[2], filter: panelFilters[2] }}
+          >
+            <AmbienceGallery />
+          </motion.div>
         </div>
 
         {/* Panel 3 — Trust Strip / Reviews (scrollable) */}
@@ -228,17 +265,25 @@ export default function HorizontalScrollSection() {
           ref={(el) => { panelScrollRefs.current[3] = el; }}
           className="shrink-0 w-screen h-screen overflow-y-scroll no-scrollbar"
         >
-          <TrustStrip />
+          <motion.div
+            style={{ opacity: panelOpacities[3], scale: panelScales[3], filter: panelFilters[3] }}
+          >
+            <TrustStrip />
+          </motion.div>
         </div>
       </motion.div>
 
-      {/* ── Panel progress indicator — bottom centre ──────────────────────── */}
+      {/* ── Panel progress indicator — bottom centre, now clickable ────────── */}
       <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50 pointer-events-none"
-        aria-hidden="true"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50"
       >
         {PANELS.map((label, i) => (
-          <div key={label} className="flex flex-col items-center gap-1.5">
+          <button
+            key={label}
+            onClick={() => goToPanel(i)}
+            aria-label={`Go to ${label} panel`}
+            className="flex flex-col items-center gap-1.5 cursor-pointer group"
+          >
             <motion.div
               animate={{
                 width: i === panel ? 28 : 8,
@@ -246,7 +291,7 @@ export default function HorizontalScrollSection() {
                   i === panel ? "#C5A880" : "rgba(255,255,255,0.28)",
               }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="h-[3px] rounded-full"
+              className="h-[3px] rounded-full group-hover:bg-white/60"
             />
             <motion.span
               animate={{ opacity: i === panel ? 1 : 0, y: i === panel ? 0 : 3 }}
@@ -255,7 +300,7 @@ export default function HorizontalScrollSection() {
             >
               {label}
             </motion.span>
-          </div>
+          </button>
         ))}
       </div>
 
