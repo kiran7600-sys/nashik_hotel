@@ -5,7 +5,6 @@ import StickyCtaBar from "@/components/StickyCtaBar";
 import Footer from "@/components/Footer";
 import { siteInfo } from "@/lib/content";
 import type { Restaurant, WithContext } from "schema-dts";
-import ScrollSpeedGrain from "@/components/ScrollSpeedGrain";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
@@ -126,7 +125,6 @@ export default function RootLayout({
         {/* Global smooth scroll — intercepts wheel events and lerps window.scrollY
             so mouse-wheel feels identical to trackpad across all page sections */}
         <SmoothScrollProvider />
-        <ScrollSpeedGrain />
         <JsonLd data={restaurantSchema} />
         <Navbar />
         <main className="flex-1">{children}</main>
