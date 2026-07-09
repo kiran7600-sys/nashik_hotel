@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { useCallback, useEffect } from "react";
+import { scrollState } from "@/lib/scrollState";
 
 type LightboxProps = {
   images: { src: string; alt: string; caption?: string }[];
@@ -34,10 +35,12 @@ export default function Lightbox({
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "hidden";
+      scrollState.lightboxOpen = true;
     }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      scrollState.lightboxOpen = false;
     };
   }, [isOpen, handleKeyDown]);
 

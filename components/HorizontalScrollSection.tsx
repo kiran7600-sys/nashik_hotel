@@ -130,6 +130,8 @@ export default function HorizontalScrollSection() {
     if (isMobile || exited) return;
 
     const onWheel = (e: WheelEvent) => {
+      if (scrollState.lightboxOpen) return;
+
       // Use capture phase + stopImmediatePropagation so SmoothScrollProvider
       // never sees this event while we're in horizontal mode
       e.preventDefault();

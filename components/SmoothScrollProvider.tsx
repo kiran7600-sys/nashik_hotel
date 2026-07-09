@@ -24,6 +24,18 @@ export default function SmoothScrollProvider() {
   useEffect(() => {
     targetY.current = window.scrollY;
 
+    let isTouching = false;
+    let lastTouchEndTime = 0;
+
+    const onTouchStart = () => {
+      isTouching = true;
+    };
+
+    const onTouchEnd = () => {
+      isTouching = false;
+      lastTouchEndTime = performance.now();
+    };
+
     const getMax = () =>
       Math.max(0, document.body.scrollHeight - window.innerHeight);
 
@@ -32,14 +44,22 @@ export default function SmoothScrollProvider() {
 
     // ── RAF loop — always running, does nothing when delta < 0.5 ──────────
     const tick = () => {
-      const cur    = window.scrollY;
-      const target = targetY.current;
-      const delta  = target - cur;
+      const now = performance.now();
+      const inTouchMomentum = isTouching || (now - lastTouchEndTime < 800);
 
-      if (Math.abs(delta) >= 0.5) {
-        window.scrollTo(0, cur + delta * EASE);
-      } else if (delta !== 0) {
-        window.scrollTo(0, target);
+      if (inTouchMomentum) {
+        // Touch is active or decaying. Continuously align targetY with current window.scrollY
+        targetY.current = window.scrollY;
+      } else {
+        const cur    = window.scrollY;
+        const target = targetY.current;
+        const delta  = target - cur;
+
+        if (Math.abs(delta) >= 0.5) {
+          window.scrollTo(0, cur + delta * EASE);
+        } else if (delta !== 0) {
+          window.scrollTo(0, target);
+        }
       }
 
       rafId.current = requestAnimationFrame(tick);
@@ -103,11 +123,17 @@ export default function SmoothScrollProvider() {
     window.addEventListener("wheel",   onWheel,  { passive: false });
     window.addEventListener("keydown", onKey,    { passive: false });
     window.addEventListener("scroll",  onScroll, { passive: true  });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
 
     return () => {
       window.removeEventListener("wheel",   onWheel);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("scroll",  onScroll);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
       if (rafId.current !== null) cancelAnimationFrame(rafId.current);
     };
   }, []);
