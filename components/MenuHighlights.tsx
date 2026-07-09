@@ -129,19 +129,19 @@ export default function MenuHighlights() {
   }, [activeCategory, filterJain]);
 
   return (
-    <section id="menu" className="py-28 bg-[#FAF9F6] text-[#1C1A17] relative">
+    <section id="menu" className="py-28 bg-cream text-espresso relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Header Block */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-stone-200 pb-8 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-espresso/10 pb-8 mb-12">
           <div>
-            <span className="text-xs uppercase tracking-[0.3em] text-[#C5A880] mb-3 block font-semibold font-sans">The Terotale Experience</span>
-            <h2 className="text-4xl md:text-6xl font-serif tracking-wide text-stone-900">Our Culinary Journal</h2>
+            <span className="text-xs uppercase tracking-[0.3em] text-terracotta mb-3 block font-semibold font-body">The Terotale Experience</span>
+            <h2 className="text-4xl md:text-6xl font-heading tracking-wide text-forest">Our Culinary Journal</h2>
           </div>
           
           {/* Quick Dietary Toggle Switch */}
-          <div className="mt-6 md:mt-0 flex items-center gap-3 bg-white border border-stone-200 px-4 py-2.5 rounded-sm shadow-sm">
-            <label htmlFor="jain-filter" className="text-xs uppercase tracking-widest font-semibold text-stone-600 cursor-pointer font-sans">
+          <div className="mt-6 md:mt-0 flex items-center gap-3 bg-offwhite border border-espresso/15 px-4 py-2.5 rounded-sm shadow-sm">
+            <label htmlFor="jain-filter" className="text-xs uppercase tracking-widest font-semibold text-espresso/70 cursor-pointer font-body">
               Show Jain Options Only
             </label>
             <input 
@@ -149,7 +149,7 @@ export default function MenuHighlights() {
               type="checkbox" 
               checked={filterJain}
               onChange={() => setFilterJain(!filterJain)}
-              className="w-4 h-4 accent-[#C5A880] cursor-pointer rounded-sm"
+              className="w-4 h-4 accent-terracotta cursor-pointer rounded-sm"
             />
           </div>
         </div>
@@ -158,16 +158,16 @@ export default function MenuHighlights() {
         <div className="flex flex-col lg:flex-row gap-12">
           
           {/* Sticky Left Category Navigation Sidebar */}
-          <aside className="lg:w-1/4 lg:sticky lg:top-28 h-fit z-30 bg-[#FAF9F6] py-2">
-            <div className="flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-l border-stone-200 pl-1">
+          <aside className="lg:w-1/4 lg:sticky lg:top-28 h-fit z-30 bg-cream py-2">
+            <div className="flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 no-scrollbar border-b lg:border-b-0 lg:border-l border-espresso/15 pl-1">
               {(Object.keys(FULL_MENU_DATA) as MenuCategory[]).map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
                   className={`text-left text-xs uppercase tracking-widest font-bold py-3 px-4 transition-all duration-300 whitespace-nowrap lg:whitespace-normal rounded-sm cursor-pointer ${
                     activeCategory === category 
-                      ? "bg-stone-900 text-white shadow-md lg:-ml-2" 
-                      : "text-stone-500 hover:text-stone-900 hover:bg-stone-100/60"
+                      ? "bg-forest text-offwhite shadow-md lg:-ml-2" 
+                      : "text-espresso/60 hover:text-forest hover:bg-sage/10"
                   }`}
                 >
                   {category}
@@ -179,11 +179,11 @@ export default function MenuHighlights() {
           {/* Right Menu Content Grid Display */}
           <main className="lg:w-3/4 min-h-[400px]">
             {filteredItems.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-stone-300 bg-white/50">
-                <p className="text-stone-400 font-serif text-lg italic">No specialized items match your criteria in this section.</p>
+              <div className="flex flex-col items-center justify-center py-20 text-center border border-dashed border-espresso/20 bg-offwhite/50">
+                <p className="text-espresso/40 font-heading text-lg italic">No specialized items match your criteria in this section.</p>
                 <button 
                   onClick={() => setFilterJain(false)} 
-                  className="mt-4 text-xs uppercase tracking-widest font-bold text-[#C5A880] underline cursor-pointer font-sans"
+                  className="mt-4 text-xs uppercase tracking-widest font-bold text-terracotta underline cursor-pointer font-body"
                 >
                   Clear Filters
                 </button>
@@ -193,37 +193,37 @@ export default function MenuHighlights() {
                 {filteredItems.map((item, idx) => (
                   <div 
                     key={idx} 
-                    className="group flex flex-col justify-between border-b border-stone-200/70 pb-6 transition-all duration-300 hover:border-stone-400"
+                    className="group flex flex-col justify-between border-b border-espresso/10 pb-6 transition-all duration-300 hover:border-sage/50"
                   >
                     <div>
                       <div className="flex justify-between items-baseline mb-2">
-                        <h3 className="text-xl font-serif tracking-wide text-stone-900 group-hover:text-[#C5A880] transition-colors duration-300">
+                        <h3 className="text-xl font-heading tracking-wide text-forest group-hover:text-terracotta transition-colors duration-300">
                           {item.name}
                         </h3>
-                        <div className="w-px flex-grow mx-4 border-b border-dotted border-stone-300 group-hover:border-stone-400" />
-                        <span className="text-sm font-medium text-stone-900 tracking-wider font-mono">
+                        <div className="w-px flex-grow mx-4 border-b border-dotted border-espresso/20 group-hover:border-sage/50" />
+                        <span className="text-sm font-medium text-forest tracking-wider font-mono">
                           ₹{item.price}
                         </span>
                       </div>
-                      <p className="text-stone-500 font-light text-xs sm:text-sm leading-relaxed mb-4 font-sans">
+                      <p className="text-espresso/60 font-light text-xs sm:text-sm leading-relaxed mb-4 font-body">
                         {item.desc}
                       </p>
                     </div>
 
                     {/* Auto Tag Generator based on names/descriptions */}
-                    <div className="flex gap-2 flex-wrap font-sans">
+                    <div className="flex gap-2 flex-wrap font-body">
                       {(item.name.toLowerCase().includes("chef") || (item.tags && item.tags.includes("Chef Special"))) && (
-                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-amber-50 text-[#A38A66] border border-amber-200 font-semibold">
+                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-terracotta/10 text-terracotta border border-terracotta/30 font-semibold">
                           Chef Special
                         </span>
                       )}
                       {(item.name.toLowerCase().includes("jain") || item.desc.toLowerCase().includes("jain") || (item.tags && item.tags.includes("Jain Available"))) && (
-                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-green-50 text-green-700 border border-green-200 font-semibold">
+                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-sage/10 text-sage border border-sage/30 font-semibold">
                           Jain Option
                         </span>
                       )}
                       {(item.name.toLowerCase().includes("signature") || (item.tags && item.tags.includes("Signature"))) && (
-                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-stone-900 text-white font-semibold">
+                        <span className="text-[9px] uppercase tracking-wider px-2 py-0.5 bg-forest text-offwhite font-semibold">
                           Signature
                         </span>
                       )}
