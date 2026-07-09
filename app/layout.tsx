@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { siteInfo } from "@/lib/content";
 import type { Restaurant, WithContext } from "schema-dts";
 import ScrollSpeedGrain from "@/components/ScrollSpeedGrain";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -122,6 +123,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-sans bg-[#FAF9F6] text-stone-800 antialiased min-h-screen flex flex-col relative">
+        {/* Global smooth scroll — intercepts wheel events and lerps window.scrollY
+            so mouse-wheel feels identical to trackpad across all page sections */}
+        <SmoothScrollProvider />
         <ScrollSpeedGrain />
         <JsonLd data={restaurantSchema} />
         <Navbar />
