@@ -1,8 +1,5 @@
-import Hero from "@/components/Hero";
-import EcoStory from "@/components/EcoStory";
+import HorizontalScrollSection from "@/components/HorizontalScrollSection";
 import MenuHighlights from "@/components/MenuHighlights";
-import AmbienceGallery from "@/components/AmbienceGallery";
-import TrustStrip from "@/components/TrustStrip";
 import ReserveForm from "@/components/ReserveForm";
 import VisitUs from "@/components/VisitUs";
 import ScrollVine from "@/components/ScrollVine";
@@ -10,12 +7,15 @@ import ScrollVine from "@/components/ScrollVine";
 export default function Home() {
   return (
     <>
+      {/* Scroll vine decorative element — visible across the horizontal section */}
       <ScrollVine />
-      <Hero />
-      <EcoStory />
+
+      {/* Horizontal scroll panels: Hero → EcoStory → AmbienceGallery → TrustStrip
+          On mobile (< 768px) these render as normal vertical sections */}
+      <HorizontalScrollSection />
+
+      {/* Normal vertical scroll continues below */}
       <MenuHighlights />
-      <AmbienceGallery />
-      <TrustStrip />
       <ReserveForm />
       <VisitUs />
     </>

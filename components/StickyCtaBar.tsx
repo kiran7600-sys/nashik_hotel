@@ -9,8 +9,8 @@ export default function StickyCtaBar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show after scrolling past the hero (approximately viewport height)
-      setVisible(window.scrollY > window.innerHeight * 0.7);
+      // Show after scrolling 30% of the first panel height (not tied to viewport height)
+      setVisible(window.scrollY > window.innerHeight * 0.3);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
