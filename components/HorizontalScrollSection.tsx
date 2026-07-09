@@ -68,6 +68,17 @@ export default function HorizontalScrollSection() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // ── Force scroll to top on mount ─────────────────────────────────────────
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      const timer = setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   // ── Keep global scroll mode flag in sync ─────────────────────────────────
   useEffect(() => {
     scrollState.horizontalActive = !exited && !isMobile;

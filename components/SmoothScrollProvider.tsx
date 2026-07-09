@@ -22,7 +22,9 @@ export default function SmoothScrollProvider() {
   const rafId   = useRef<number | null>(null);
 
   useEffect(() => {
-    targetY.current = window.scrollY;
+    // Reset scroll position to top on mount to override browser scroll restoration
+    window.scrollTo(0, 0);
+    targetY.current = 0;
 
     let isTouching = false;
     let lastTouchEndTime = 0;
