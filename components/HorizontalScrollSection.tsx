@@ -28,6 +28,11 @@ export default function HorizontalScrollSection() {
   const isAnimating     = useRef(false);
   const accumulated     = useRef(0);
   const clearAccTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Timestamp until which wheel deltas are absorbed but NOT counted toward
+  // the next panel trigger — lets trackpad momentum decay after a jump lands,
+  // instead of chaining straight into the next panel.
+  const cooldownUntil   = useRef(0);
+  const COOLDOWN_MS     = 500;
 
   // One ref per panel — the scrollable inner container
   const panelScrollRefs = useRef<(HTMLDivElement | null)[]>(Array(PANEL_COUNT).fill(null));
@@ -130,7 +135,10 @@ export default function HorizontalScrollSection() {
         type: "tween",
         ease: EASE,
         duration: TRANSITION_S,
-        onComplete: () => { isAnimating.current = false; },
+        onComplete: () => {
+          isAnimating.current = false;
+          cooldownUntil.current = performance.now() + COOLDOWN_MS;
+        },
       });
     },
     [x]
@@ -173,6 +181,11 @@ export default function HorizontalScrollSection() {
             maxScroll
           );
           accumulated.current = 0;
+        } else if (performance.now() < cooldownUntil.current) {
+          // In post-transition cooldown — absorb the delta (still preventDefault
+          // above) but don't count it toward the next trigger, so leftover
+          // trackpad momentum can't chain straight into another panel jump.
+          accumulated.current = 0;
         } else {
           // At bottom — accumulate delta until threshold reached
           accumulated.current += dy;
@@ -192,6 +205,8 @@ export default function HorizontalScrollSection() {
 
         if (!atTop && scrollEl) {
           scrollEl.scrollTop = Math.max(0, scrollEl.scrollTop + dy);
+          accumulated.current = 0;
+        } else if (performance.now() < cooldownUntil.current) {
           accumulated.current = 0;
         } else {
           accumulated.current += dy; // dy is negative
