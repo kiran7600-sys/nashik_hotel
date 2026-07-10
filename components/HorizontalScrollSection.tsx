@@ -6,10 +6,11 @@ import Hero from "@/components/Hero";
 import EcoStory from "@/components/EcoStory";
 import AmbienceGallery from "@/components/AmbienceGallery";
 import TrustStrip from "@/components/TrustStrip";
+import TheView from "@/components/TheView";
 import { scrollState } from "@/lib/scrollState";
 
-const PANEL_COUNT = 4;
-const PANELS = ["Hero", "Eco Story", "Ambience", "Reviews"] as const;
+const PANEL_COUNT = 5;
+const PANELS = ["Hero", "Eco Story", "Ambience", "The View", "Reviews"] as const;
 
 // Cinematic panel slide — softer, less mechanical than a hard easeInOutQuart
 const EASE: [number, number, number, number] = [0.65, 0, 0.35, 1];
@@ -49,19 +50,22 @@ export default function HorizontalScrollSection() {
   const opacity1 = useTransform(x, [-200, -100, 0], [0.35, 1, 0.35]);
   const opacity2 = useTransform(x, [-300, -200, -100], [0.35, 1, 0.35]);
   const opacity3 = useTransform(x, [-400, -300, -200], [0.35, 1, 0.35]);
-  const panelOpacities = [opacity0, opacity1, opacity2, opacity3];
+  const opacity4 = useTransform(x, [-500, -400, -300], [0.35, 1, 0.35]);
+  const panelOpacities = [opacity0, opacity1, opacity2, opacity3, opacity4];
 
   const scale0 = useTransform(x, [-100, 0, 100], [0.96, 1, 0.96]);
   const scale1 = useTransform(x, [-200, -100, 0], [0.96, 1, 0.96]);
   const scale2 = useTransform(x, [-300, -200, -100], [0.96, 1, 0.96]);
   const scale3 = useTransform(x, [-400, -300, -200], [0.96, 1, 0.96]);
-  const panelScales = [scale0, scale1, scale2, scale3];
+  const scale4 = useTransform(x, [-500, -400, -300], [0.96, 1, 0.96]);
+  const panelScales = [scale0, scale1, scale2, scale3, scale4];
 
   const blur0 = useTransform(x, [-100, 0, 100], [3, 0, 3]);
   const blur1 = useTransform(x, [-200, -100, 0], [3, 0, 3]);
   const blur2 = useTransform(x, [-300, -200, -100], [3, 0, 3]);
   const blur3 = useTransform(x, [-400, -300, -200], [3, 0, 3]);
-  const panelFilters = [blur0, blur1, blur2, blur3].map((b) =>
+  const blur4 = useTransform(x, [-500, -400, -300], [3, 0, 3]);
+  const panelFilters = [blur0, blur1, blur2, blur3, blur4].map((b) =>
     useTransform(b, (v) => `blur(${v}px)`)
   );
 
@@ -238,6 +242,7 @@ export default function HorizontalScrollSection() {
         <Hero />
         <EcoStory />
         <AmbienceGallery />
+        <TheView />
         <TrustStrip />
       </>
     );
@@ -288,13 +293,26 @@ export default function HorizontalScrollSection() {
           </motion.div>
         </div>
 
-        {/* Panel 3 — Trust Strip / Reviews (scrollable) */}
+        {/* Panel 3 — The View (full screen panoramic, no internal scroll) */}
         <div
           ref={(el) => { panelScrollRefs.current[3] = el; }}
-          className="shrink-0 w-screen h-screen overflow-y-scroll no-scrollbar"
+          className="shrink-0 w-screen h-screen overflow-hidden"
         >
           <motion.div
             style={{ opacity: panelOpacities[3], scale: panelScales[3], filter: panelFilters[3] }}
+            className="h-full"
+          >
+            <TheView />
+          </motion.div>
+        </div>
+
+        {/* Panel 4 — Trust Strip / Reviews (scrollable) */}
+        <div
+          ref={(el) => { panelScrollRefs.current[4] = el; }}
+          className="shrink-0 w-screen h-screen overflow-y-scroll no-scrollbar"
+        >
+          <motion.div
+            style={{ opacity: panelOpacities[4], scale: panelScales[4], filter: panelFilters[4] }}
           >
             <TrustStrip />
           </motion.div>
